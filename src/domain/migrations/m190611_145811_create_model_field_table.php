@@ -13,7 +13,7 @@ class m190611_145811_create_model_field_table extends Migration {
 	{
 		return [
 			'id' => $this->primaryKey()->notNull(),
-			'form_id' => $this->integer()->notNull(),
+			'entity_id' => $this->integer()->notNull(),
 			'name' => $this->string()->notNull(),
 			'type' => $this->string()->notNull(),
 			'title' => $this->string(),
@@ -25,10 +25,10 @@ class m190611_145811_create_model_field_table extends Migration {
 
 	public function afterCreate()
 	{
-        $this->myCreateIndexUnique(['form_id', 'name']);
+        $this->myCreateIndexUnique(['entity_id', 'name']);
 		$this->myAddForeignKey(
-			'form_id',
-			'model_form',
+			'entity_id',
+			'model_entity',
 			'id',
 			'CASCADE',
 			'CASCADE'

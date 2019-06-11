@@ -2,9 +2,9 @@
 
 use yii2lab\db\domain\db\MigrationCreateTable as Migration;
 
-class m190611_145810_create_model_form_table extends Migration {
+class m190611_145810_create_model_entity_table extends Migration {
 
-	public $table = 'model_form';
+	public $table = 'model_entity';
 
 	/**
 	 * @inheritdoc

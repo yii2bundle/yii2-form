@@ -10,7 +10,7 @@ use yii2rails\domain\BaseEntity;
  * @package yii2bundle\model\domain\entities
  * 
  * @property $id
- * @property $form_id
+ * @property $entity_id
  * @property $name
  * @property $type
  * @property $title
@@ -24,7 +24,7 @@ use yii2rails\domain\BaseEntity;
 class FieldEntity extends BaseEntity {
 
 	protected $id;
-	protected $form_id;
+	protected $entity_id;
 	protected $name;
 	protected $type;
 	protected $title;

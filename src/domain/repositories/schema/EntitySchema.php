@@ -7,12 +7,12 @@ use yii2rails\domain\enums\RelationEnum;
 use yii2rails\domain\repositories\relations\BaseSchema;
 
 /**
- * Class FormSchema
+ * Class EntitySchema
  * 
  * @package yii2bundle\model\domain\repositories\schema
  * 
  */
-class FormSchema extends BaseSchema {
+class EntitySchema extends BaseSchema {
 
     public function relations() {
         return [
@@ -21,7 +21,7 @@ class FormSchema extends BaseSchema {
                 'field' => 'id',
                 'foreign' => [
                     'id' => 'model.field',
-                    'field' => 'form_id',
+                    'field' => 'entity_id',
                     'classType' => RelationClassTypeEnum::SERVICE,
                 ],
             ],

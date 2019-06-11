@@ -5,7 +5,7 @@ namespace yii2bundle\model\domain\entities;
 use yii2rails\domain\BaseEntity;
 
 /**
- * Class FormEntity
+ * Class EntityEntity
  * 
  * @package yii2bundle\model\domain\entities
  * 
@@ -16,7 +16,7 @@ use yii2rails\domain\BaseEntity;
  *
  * @property $fields
  */
-class FormEntity extends BaseEntity {
+class EntityEntity extends BaseEntity {
 
 	protected $id;
 	protected $name;

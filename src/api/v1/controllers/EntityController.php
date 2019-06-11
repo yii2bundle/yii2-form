@@ -7,10 +7,10 @@ use yubundle\money\domain\v1\interfaces\services\DivisionInterface;
 use yii2lab\rest\domain\rest\ActiveControllerWithQuery as Controller;
 use yii2rails\extension\web\helpers\Behavior;
 
-class FormController extends Controller
+class EntityController extends Controller
 {
 
-	public $service = 'model.form';
+	public $service = 'model.entity';
 
 	public function behaviors()
     {
@@ -23,7 +23,7 @@ class FormController extends Controller
 
     public function actionValidate($id) {
 	    $data = \Yii::$app->request->post();
-	    $model = \App::$domain->model->form->validate($id, $data);
+	    $model = \App::$domain->model->entity->validate($id, $data);
 
     }
 

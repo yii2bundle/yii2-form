@@ -6,15 +6,15 @@ use yii\base\Model;
 use yii2rails\domain\interfaces\services\CrudInterface;
 
 /**
- * Interface FormInterface
+ * Interface EntityInterface
  * 
  * @package yii2bundle\model\domain\interfaces\services
  * 
  * @property-read \yii2bundle\model\domain\Domain $domain
- * @property-read \yii2bundle\model\domain\interfaces\repositories\FormInterface $repository
+ * @property-read \yii2bundle\model\domain\interfaces\repositories\EntityInterface $repository
  */
-interface FormInterface extends CrudInterface {
+interface EntityInterface extends CrudInterface {
 
-    public function validate(int $formId, array $data) : Model;
+    public function validate(int $entityId, array $data) : Model;
 
 }
