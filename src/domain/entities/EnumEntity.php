@@ -13,6 +13,7 @@ use yii2rails\domain\BaseEntity;
  * @property $field_id
  * @property $name
  * @property $title
+ * @property $sort
  * @property $status
  */
 class EnumEntity extends BaseEntity {
@@ -21,6 +22,7 @@ class EnumEntity extends BaseEntity {
 	protected $field_id;
 	protected $name;
 	protected $title;
+    protected $sort;
     protected $status;
 
 }

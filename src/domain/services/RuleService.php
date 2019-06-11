@@ -20,8 +20,7 @@ class RuleService extends BaseActiveService implements RuleInterface {
 
 
     public $validatorClasses = [
-        'userLoginValidator' => 'yubundle\money\domain\validators\UserLoginValidator',
-        'charFilter' => 'yubundle\money\domain\validators\CharFilter',
+        'birthday' => 'yubundle\user\domain\v1\validators\UserBirthdayValidator',
     ];
 
     protected function prepareQuery(Query $query = null)
