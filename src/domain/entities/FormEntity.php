@@ -5,24 +5,20 @@ namespace yii2bundle\model\domain\entities;
 use yii2rails\domain\BaseEntity;
 
 /**
- * Class RuleEntity
+ * Class FormEntity
  * 
  * @package yii2bundle\model\domain\entities
  * 
  * @property $id
- * @property $field_id
  * @property $name
- * @property $params
- * @property $sort
+ * @property $handler
  * @property $status
  */
-class RuleEntity extends BaseEntity {
+class FormEntity extends BaseEntity {
 
 	protected $id;
-	protected $field_id;
 	protected $name;
-	protected $params;
-    protected $sort;
-	protected $status;
+	protected $handler;
+    protected $status;
 
 }

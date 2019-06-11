@@ -1,9 +1,9 @@
 {
-	"name": "yii2bundle/yii2-form",
+	"name": "yii2bundle/yii2-model",
 	"type": "yii2-extension",
 	"keywords": [
 		"yii2",
-		"form"
+		"model"
 	],
 	"license": "MIT",
 	"authors": [
@@ -15,8 +15,8 @@
 	"minimum-stability": "dev",
 	"autoload": {
 		"psr-4": {
-			"yii2bundle\\form\\": "src",
-			"yii2bundle\\form\\tests\\": "tests"
+			"yii2bundle\\model\\": "src",
+			"yii2bundle\\model\\tests\\": "tests"
 		}
 	},
 	"require": {

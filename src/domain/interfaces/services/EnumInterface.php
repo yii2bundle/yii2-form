@@ -5,13 +5,13 @@ namespace yii2bundle\model\domain\interfaces\services;
 use yii2rails\domain\interfaces\services\CrudInterface;
 
 /**
- * Interface RuleInterface
+ * Interface EnumInterface
  * 
  * @package yii2bundle\model\domain\interfaces\services
  * 
  * @property-read \yii2bundle\model\domain\Domain $domain
- * @property-read \yii2bundle\model\domain\interfaces\repositories\RuleInterface $repository
+ * @property-read \yii2bundle\model\domain\interfaces\repositories\EnumInterface $repository
  */
-interface RuleInterface extends CrudInterface {
+interface EnumInterface extends CrudInterface {
 
 }

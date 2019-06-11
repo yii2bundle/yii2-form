@@ -1,26 +1,30 @@
 <?php
 
-namespace yii2bundle\form\domain\entities;
+namespace yii2bundle\model\domain\entities;
 
 use yii2rails\domain\BaseEntity;
 
 /**
  * Class FieldEntity
  * 
- * @package yii2bundle\form\domain\entities
+ * @package yii2bundle\model\domain\entities
  * 
  * @property $id
- * @property $model_id
+ * @property $form_id
  * @property $name
  * @property $title
- * @property $hint
+ * @property $description
+ * @property $sort
+ * @property $status
  */
 class FieldEntity extends BaseEntity {
 
 	protected $id;
-	protected $model_id;
+	protected $form_id;
 	protected $name;
 	protected $title;
-	protected $hint;
+	protected $description;
+    protected $sort;
+    protected $status;
 
 }
