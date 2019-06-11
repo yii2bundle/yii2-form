@@ -2,6 +2,7 @@
 
 namespace yii2bundle\model\domain\interfaces\services;
 
+use yii\base\Model;
 use yii2rails\domain\interfaces\services\CrudInterface;
 
 /**
@@ -13,5 +14,7 @@ use yii2rails\domain\interfaces\services\CrudInterface;
  * @property-read \yii2bundle\model\domain\interfaces\repositories\FormInterface $repository
  */
 interface FormInterface extends CrudInterface {
+
+    public function validate(int $formId, array $data) : Model;
 
 }

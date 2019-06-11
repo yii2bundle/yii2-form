@@ -12,6 +12,7 @@ use yii2rails\domain\BaseEntity;
  * @property $id
  * @property $form_id
  * @property $name
+ * @property $type
  * @property $title
  * @property $description
  * @property $sort
@@ -25,6 +26,7 @@ class FieldEntity extends BaseEntity {
 	protected $id;
 	protected $form_id;
 	protected $name;
+	protected $type;
 	protected $title;
 	protected $description;
     protected $sort;

@@ -8,7 +8,7 @@ use yii2rails\domain\enums\Driver;
 /**
  * Class Domain
  * 
- * @property-read \yii2bundle\model\domain\interfaces\services\FormInterface $model
+ * @property-read \yii2bundle\model\domain\interfaces\services\FormInterface $form
  * @property-read \yii2bundle\model\domain\interfaces\repositories\RepositoriesInterface $repositories
  * @property-read \yii2bundle\model\domain\interfaces\services\FieldInterface $field
  * @property-read \yii2bundle\model\domain\interfaces\services\RuleInterface $rule

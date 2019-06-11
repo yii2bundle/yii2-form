@@ -21,4 +21,10 @@ class FormController extends Controller
         ];
     }
 
+    public function actionValidate($id) {
+	    $data = \Yii::$app->request->post();
+	    $model = \App::$domain->model->form->validate($id, $data);
+
+    }
+
 }
