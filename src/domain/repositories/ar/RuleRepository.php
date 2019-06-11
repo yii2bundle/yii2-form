@@ -4,6 +4,7 @@ namespace yii2bundle\model\domain\repositories\ar;
 
 use yii2bundle\model\domain\interfaces\repositories\RuleInterface;
 use yii2rails\domain\repositories\BaseRepository;
+use yii2rails\extension\activeRecord\repositories\base\BaseActiveArRepository;
 
 /**
  * Class RuleRepository
@@ -12,8 +13,13 @@ use yii2rails\domain\repositories\BaseRepository;
  * 
  * @property-read \yii2bundle\model\domain\Domain $domain
  */
-class RuleRepository extends BaseRepository implements RuleInterface {
+class RuleRepository extends BaseActiveArRepository implements RuleInterface {
 
 	protected $schemaClass = true;
+
+    public function tableName()
+    {
+        return 'model_rule';
+    }
 
 }

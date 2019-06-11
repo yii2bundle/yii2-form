@@ -13,6 +13,8 @@ use yii2rails\domain\BaseEntity;
  * @property $name
  * @property $handler
  * @property $status
+ *
+ * @property $fields
  */
 class FormEntity extends BaseEntity {
 
@@ -20,5 +22,7 @@ class FormEntity extends BaseEntity {
 	protected $name;
 	protected $handler;
     protected $status;
+
+    protected $fields;
 
 }

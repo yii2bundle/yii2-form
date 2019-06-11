@@ -3,6 +3,7 @@
 namespace yii2bundle\model\domain;
 
 use yii2rails\app\domain\helpers\EnvService;
+use yii2rails\domain\enums\Driver;
 
 /**
  * Class Domain
@@ -17,9 +18,18 @@ class Domain extends \yii2rails\domain\Domain {
 
 	public function config() {
 		return [
-			'services' => [
-
+			'repositories' => [
+                'form' => Driver::ACTIVE_RECORD,
+                'field' => Driver::ACTIVE_RECORD,
+                'rule' => Driver::ACTIVE_RECORD,
+                'enum' => Driver::ACTIVE_RECORD,
 			],
+            'services' => [
+                'form',
+                'field',
+                'rule',
+                'enum',
+            ],
 		];
 	}
 

@@ -2,11 +2,6 @@
 
 use yii2lab\db\domain\db\MigrationCreateTable as Migration;
 
-/**
- * Class m190611_145821_create_model_field_table
- * 
- * @package 
- */
 class m190611_145811_create_model_field_table extends Migration {
 
 	public $table = 'model_field';

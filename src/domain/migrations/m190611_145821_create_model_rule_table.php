@@ -17,7 +17,7 @@ class m190611_145821_create_model_rule_table extends Migration {
 	public function getColumns()
 	{
 		return [
-			'id' => $this->integer()->notNull(),
+            'id' => $this->primaryKey()->notNull(),
 			'field_id' => $this->integer()->notNull(),
 			'name' => $this->string()->notNull(),
 			'params' => $this->json(),

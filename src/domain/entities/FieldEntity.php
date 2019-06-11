@@ -16,6 +16,9 @@ use yii2rails\domain\BaseEntity;
  * @property $description
  * @property $sort
  * @property $status
+ *
+ * @property $rules
+ * @property $enums
  */
 class FieldEntity extends BaseEntity {
 
@@ -26,5 +29,8 @@ class FieldEntity extends BaseEntity {
 	protected $description;
     protected $sort;
     protected $status;
+
+    protected $rules;
+    protected $enums;
 
 }
