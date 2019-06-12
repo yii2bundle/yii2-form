@@ -17,20 +17,6 @@ class RuleHelper {
         return $data;
     }
 
-    public static function prepareErrorAttributes($errors, $prefix = 'data') {
-        $newErrors = [];
-        foreach ($errors as $errorAttribute => $errorMessages) {
-            $newErrors[$errorAttribute] = $errorMessages;
-        }
-        return $newErrors;
-    }
-
-    protected static function setAttributes(Model $model, array $attributes) {
-        foreach ($attributes as $attribute) {
-            $model->{$attribute} = null;
-        }
-    }
-
     public static function createModel(array $rules, array $data, array $attributes = [], array $fieldCollection = []) : Model {
         $model = new DynamicModel;
         self::setAttributes($model, $attributes);
@@ -53,7 +39,33 @@ class RuleHelper {
         return $model;
     }
 
-    public static function validate($rules, &$data) {
+    public static function fieldCollectionToRules($fieldCollection) : array {
+        $rules = [];
+        /** @var FieldEntity[] $fieldCollection */
+        foreach ($fieldCollection as $fieldEntity) {
+            $entityRules = self::fieldEntityToRules($fieldEntity);
+            $rules = ArrayHelper::merge($rules, $entityRules);
+        }
+        return $rules;
+    }
+
+    private static function entityToRule($attributeName, $validator, $params) {
+        $validator = \App::$domain->model->rule->validatorClassByName($validator);
+        $rule = [$attributeName, $validator];
+        $params = is_array($params) ? $params : [];
+        $rule = ArrayHelper::merge($rule, $params);
+        return $rule;
+    }
+
+    private static function prepareErrorAttributes($errors, $prefix = 'data') {
+        $newErrors = [];
+        foreach ($errors as $errorAttribute => $errorMessages) {
+            $newErrors[$errorAttribute] = $errorMessages;
+        }
+        return $newErrors;
+    }
+
+    private static function validate($rules, &$data) {
         $model = self::createModel($rules, $data);
         /*$model = new DynamicModel;
         $model->loadRules($rules);
@@ -66,34 +78,28 @@ class RuleHelper {
         return null;
     }
 
-    public static function fieldCollectionToRules($fieldCollection) {
+    private static function setAttributes(Model $model, array $attributes) {
+        foreach ($attributes as $attribute) {
+            $model->{$attribute} = null;
+        }
+    }
+
+    private static function fieldEntityToRules(FieldEntity $fieldEntity) : array {
         $rules = [];
-        /** @var FieldEntity[] $fieldCollection */
-        foreach ($fieldCollection as $fieldEntity) {
-            if($fieldEntity->type == FieldTypeEnum::ENUM) {
-                $rule = self::enumToRule($fieldEntity->name, $fieldEntity->enums);
+        if($fieldEntity->rules) {
+            foreach ($fieldEntity->rules as $ruleEntity) {
+                $rule = self::entityToRule($fieldEntity->name, $ruleEntity->name,$ruleEntity->params);
                 $rules[] = $rule;
-            } else {
-                if($fieldEntity->rules) {
-                    foreach ($fieldEntity->rules as $ruleEntity) {
-                        $rule = RuleHelper::entityToRule($fieldEntity->name, $ruleEntity->name,$ruleEntity->params);
-                        $rules[] = $rule;
-                    }
-                }
             }
+        }
+        if($fieldEntity->type == FieldTypeEnum::ENUM) {
+            $rule = self::enumToRule($fieldEntity->name, $fieldEntity->enums);
+            $rules[] = $rule;
         }
         return $rules;
     }
 
-    public static function entityToRule($attributeName, $validator, $params) {
-        $validator = \App::$domain->model->rule->validatorClassByName($validator);
-        $rule = [$attributeName, $validator];
-        $params = is_array($params) ? $params : [];
-        $rule = ArrayHelper::merge($rule, $params);
-        return $rule;
-    }
-
-    private static function enumToRule($fieldName, $enums) {
+    private static function enumToRule($fieldName, $enums) : array {
         $enumOptions = ArrayHelper::map($enums, 'name', 'title');
         $enumNames = array_keys($enumOptions);
         return [$fieldName, 'in', 'range' => $enumNames];
