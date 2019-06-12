@@ -25,6 +25,15 @@ class EntitySchema extends BaseSchema {
                     'classType' => RelationClassTypeEnum::SERVICE,
                 ],
             ],
+            'book' => [
+                'type' => RelationEnum::ONE,
+                'field' => 'book_id',
+                'foreign' => [
+                    'id' => 'model.book',
+                    'field' => 'id',
+                    'classType' => RelationClassTypeEnum::SERVICE,
+                ],
+            ],
         ];
     }
 

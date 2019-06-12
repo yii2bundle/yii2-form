@@ -22,7 +22,7 @@ use yii2rails\extension\common\enums\StatusEnum;
 class EntityService extends BaseActiveService implements EntityInterface {
 
     public function createModel(int $entityId, array $data) : Model {
-        $fieldCollection = $this->allByEntityId($entityId);
+        $fieldCollection = $this->allFieldsByEntityId($entityId);
         $data = RuleHelper::filterAttributes($fieldCollection, $data);
         $rules = RuleHelper::fieldCollectionToRules($fieldCollection);
         $attributes = ArrayHelper::getColumn($fieldCollection, 'name');
@@ -35,18 +35,14 @@ class EntityService extends BaseActiveService implements EntityInterface {
      * @param Query|null $query
      * @return FieldEntity[]
      */
-    public function allByEntityId($entityId, Query $query = null)
+    private function allFieldsByEntityId($entityId, Query $query = null)
     {
-        $query = new Query;
+        $query = Query::forge($query);
         $query->with(['fields.rules', 'fields.enums']);
         //$query->andWhere(['is_visible' => 1]);
         /** @var SentityEntity $entityEntity */
         $entityEntity = \App::$domain->model->entity->oneById($entityId, $query);
         return $entityEntity->fields;
-        /* $query = Query::forge($query);
-         $query->andWhere(['entity_id' => $entityId]);
-         $query->with('rules', 'enums');
-         return $this->all($query);*/
     }
 
     public function validate(int $entityId, array $data) : Model {
@@ -55,8 +51,6 @@ class EntityService extends BaseActiveService implements EntityInterface {
         if(!$isValid) {
             throw new UnprocessableEntityHttpException($model);
         }
-        //d($isValid);
-        //d($model->toArray());
         return $model;
     }
 

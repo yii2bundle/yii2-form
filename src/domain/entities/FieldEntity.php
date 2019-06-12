@@ -13,13 +13,15 @@ use yii2rails\domain\BaseEntity;
  * @property $entity_id
  * @property $name
  * @property $type
+ * @property $is_required
+ * @property $default
  * @property $title
  * @property $description
  * @property $sort
  * @property $status
  *
- * @property $rules
- * @property $enums
+ * @property RuleEntity $rules
+ * @property EnumEntity $enums
  */
 class FieldEntity extends BaseEntity {
 
@@ -27,6 +29,8 @@ class FieldEntity extends BaseEntity {
 	protected $entity_id;
 	protected $name;
 	protected $type;
+	protected $is_required = 0;
+	protected $default;
 	protected $title;
 	protected $description;
     protected $sort;

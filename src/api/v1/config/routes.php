@@ -3,6 +3,6 @@
 $version = API_VERSION_STRING;
 
 return [
-    "POST {$version}/entity-validate/<id:\d+>" => "model/entity/validate",
-    ["class" => "yii\\rest\UrlRule", "controller" => ["{$version}/entity" => "model/entity"]],
+    "POST {$version}/model/validate/<id:\d+>" => "model/entity/validate",
+    ["class" => "yii\\rest\UrlRule", "controller" => ["{$version}/model/entity" => "model/entity"]],
 ];

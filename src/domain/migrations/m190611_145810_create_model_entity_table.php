@@ -13,7 +13,9 @@ class m190611_145810_create_model_entity_table extends Migration {
 	{
 		return [
 			'id' => $this->primaryKey()->notNull(),
+            'book_id' => $this->integer()->notNull(),
 			'name' => $this->string()->notNull(),
+            'title' => $this->string(),
 			'handler' => $this->json(),
 			'status' => $this->integer()->notNull()->defaultValue(1),
 		];
@@ -21,7 +23,14 @@ class m190611_145810_create_model_entity_table extends Migration {
 
 	public function afterCreate()
 	{
-        $this->myCreateIndexUnique(['name']);
+        $this->myCreateIndexUnique(['book_id', 'name']);
+        $this->myAddForeignKey(
+            'book_id',
+            'model_book',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
 	}
 
 }

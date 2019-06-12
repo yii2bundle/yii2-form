@@ -4,10 +4,12 @@ namespace yii2bundle\model\domain\helpers;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii2bundle\model\domain\entities\FieldEntity;
 use yii2bundle\model\domain\enums\FieldTypeEnum;
 use yii2rails\domain\exceptions\UnprocessableEntityHttpException;
+use yii2rails\domain\values\NullValue;
+use yii2rails\extension\common\helpers\TypeHelper;
 use yii2rails\extension\validator\DynamicModel;
-use yubundle\money\domain\entities\FieldEntity;
 
 class RuleHelper {
 
@@ -49,7 +51,7 @@ class RuleHelper {
         return $rules;
     }
 
-    private static function entityToRule($attributeName, $validator, $params) {
+    private static function entityToRule(string $attributeName, string $validator, $params) {
         $validator = \App::$domain->model->rule->validatorClassByName($validator);
         $rule = [$attributeName, $validator];
         $params = is_array($params) ? $params : [];
@@ -57,7 +59,7 @@ class RuleHelper {
         return $rule;
     }
 
-    private static function prepareErrorAttributes($errors, $prefix = 'data') {
+    private static function prepareErrorAttributes(array $errors, string $prefix = 'data') {
         $newErrors = [];
         foreach ($errors as $errorAttribute => $errorMessages) {
             $newErrors[$errorAttribute] = $errorMessages;
@@ -65,7 +67,7 @@ class RuleHelper {
         return $newErrors;
     }
 
-    private static function validate($rules, &$data) {
+    private static function validate(array $rules, array &$data) {
         $model = self::createModel($rules, $data);
         /*$model = new DynamicModel;
         $model->loadRules($rules);
@@ -86,15 +88,54 @@ class RuleHelper {
 
     private static function fieldEntityToRules(FieldEntity $fieldEntity) : array {
         $rules = [];
+        if($fieldEntity->is_required) {
+            $rules[] = [$fieldEntity->name, 'required'];
+        }
+        if($fieldEntity->default) {
+            $rules[] = [$fieldEntity->name, 'default', 'value' => $fieldEntity->default];
+        }
+
+        $typeRules = self::getTypeRule($fieldEntity);
+        if($typeRules) {
+            $rules = array_merge($rules, $typeRules);
+        }
+
         if($fieldEntity->rules) {
             foreach ($fieldEntity->rules as $ruleEntity) {
                 $rule = self::entityToRule($fieldEntity->name, $ruleEntity->name,$ruleEntity->params);
                 $rules[] = $rule;
             }
         }
+        return $rules;
+    }
+
+    private static function getTypeRule(FieldEntity $fieldEntity) {
+        $handledTypes = [
+            'integer' => 'intval',
+            'double' => 'floatval',
+            'string' => 'strval',
+            //'boolean' => 'boolval',
+            'boolean' => function($value) {
+                if($value == 'true' || $value == 'on') {
+                    return true;
+                }
+                if($value == 'false' || $value == 'off') {
+                    return false;
+                }
+                return boolval($value);
+            },
+        ];
+        $rules = [];
+        if($fieldEntity->type && isset($handledTypes[$fieldEntity->type])) {
+            $rules[] = [$fieldEntity->name, 'filter', 'filter' => $handledTypes[$fieldEntity->type]];
+        }
         if($fieldEntity->type == FieldTypeEnum::ENUM) {
-            $rule = self::enumToRule($fieldEntity->name, $fieldEntity->enums);
-            $rules[] = $rule;
+            $rules[] = [$fieldEntity->name, 'trim'];
+            $rules[] = self::enumToRule($fieldEntity->name, $fieldEntity->enums);
+        }
+        if($fieldEntity->type == FieldTypeEnum::SAFE_STRING) {
+            $rules[] = [$fieldEntity->name, 'filter','filter'=>'\yii\helpers\HtmlPurifier::process'];
+            $rules[] = [$fieldEntity->name, 'trim'];
         }
         return $rules;
     }

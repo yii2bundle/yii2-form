@@ -13,6 +13,7 @@ use yii2rails\domain\enums\Driver;
  * @property-read \yii2bundle\model\domain\interfaces\services\FieldInterface $field
  * @property-read \yii2bundle\model\domain\interfaces\services\RuleInterface $rule
  * @property-read \yii2bundle\model\domain\interfaces\services\EnumInterface $enum
+ * @property-read \yii2bundle\model\domain\interfaces\services\BookInterface $book
  */
 class Domain extends \yii2rails\domain\Domain {
 
@@ -23,12 +24,14 @@ class Domain extends \yii2rails\domain\Domain {
                 'field' => Driver::ACTIVE_RECORD,
                 'rule' => Driver::ACTIVE_RECORD,
                 'enum' => Driver::ACTIVE_RECORD,
+                'book' => Driver::ACTIVE_RECORD,
 			],
             'services' => [
                 'entity',
                 'field',
                 'rule',
                 'enum',
+                'book',
             ],
 		];
 	}

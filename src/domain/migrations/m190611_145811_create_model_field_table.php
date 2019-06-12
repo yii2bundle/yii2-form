@@ -16,6 +16,8 @@ class m190611_145811_create_model_field_table extends Migration {
 			'entity_id' => $this->integer()->notNull(),
 			'name' => $this->string()->notNull(),
 			'type' => $this->string()->notNull(),
+            'is_required' => $this->smallInteger(1)->notNull(),
+            'default' => $this->json(),
 			'title' => $this->string(),
 			'description' => $this->string(),
 			'sort' => $this->integer()->notNull()->defaultValue(10),
