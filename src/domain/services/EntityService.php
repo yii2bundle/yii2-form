@@ -4,6 +4,7 @@ namespace yii2bundle\model\domain\services;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii2bundle\model\domain\entities\EntityEntity;
 use yii2bundle\model\domain\helpers\RuleHelper;
 use yii2bundle\model\domain\interfaces\services\EntityInterface;
 use yii2rails\domain\data\Query;
@@ -52,6 +53,20 @@ class EntityService extends BaseActiveService implements EntityInterface {
             throw new UnprocessableEntityHttpException($model);
         }
         return $model;
+    }
+
+    public function oneDefault(int $entityId) : array {
+        $query = Query::forge();
+        $query->with(['fields']);
+        /** @var EntityEntity $entityEntity */
+        $entityEntity = \App::$domain->model->entity->oneById($entityId, $query);
+        $defaultValues = [];
+        foreach ($entityEntity->fields as $fieldEntity) {
+            if($fieldEntity->default) {
+                $defaultValues[$fieldEntity->name] = $fieldEntity->default;
+            }
+        }
+        return $defaultValues;
     }
 
 }

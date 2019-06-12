@@ -26,4 +26,8 @@ class EntityController extends Controller
         return $model->toArray();
     }
 
+    public function actionDefault($id) {
+        return \App::$domain->model->entity->oneDefault($id);
+    }
+
 }

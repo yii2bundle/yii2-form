@@ -11,5 +11,7 @@ class FieldTypeEnum extends BaseEnum {
 	const DOUBLE = 'double';
     const INTEGER = 'integer';
     const ENUM = 'enum';
+    const ENUMS = 'enums';
+    const BOOLEAN = 'boolean';
 
 }

@@ -8,6 +8,7 @@ use yii2bundle\model\domain\entities\FieldEntity;
 use yii2bundle\model\domain\enums\FieldTypeEnum;
 use yii2rails\domain\exceptions\UnprocessableEntityHttpException;
 use yii2rails\domain\values\NullValue;
+use yii2rails\extension\common\helpers\TypeEncodeHelper;
 use yii2rails\extension\common\helpers\TypeHelper;
 use yii2rails\extension\validator\DynamicModel;
 
@@ -111,19 +112,11 @@ class RuleHelper {
 
     private static function getTypeRule(FieldEntity $fieldEntity) {
         $handledTypes = [
-            'integer' => 'intval',
-            'double' => 'floatval',
-            'string' => 'strval',
-            //'boolean' => 'boolval',
-            'boolean' => function($value) {
-                if($value == 'true' || $value == 'on') {
-                    return true;
-                }
-                if($value == 'false' || $value == 'off') {
-                    return false;
-                }
-                return boolval($value);
-            },
+            FieldTypeEnum::INTEGER => 'intval',
+            FieldTypeEnum::DOUBLE => 'floatval',
+            FieldTypeEnum::STRING => 'strval',
+            FieldTypeEnum::SAFE_STRING => 'strval',
+            FieldTypeEnum::BOOLEAN => [TypeEncodeHelper::class, 'bool'],
         ];
         $rules = [];
         if($fieldEntity->type && isset($handledTypes[$fieldEntity->type])) {
@@ -133,17 +126,21 @@ class RuleHelper {
             $rules[] = [$fieldEntity->name, 'trim'];
             $rules[] = self::enumToRule($fieldEntity->name, $fieldEntity->enums);
         }
+        if($fieldEntity->type == FieldTypeEnum::ENUMS) {
+            $rules[] = [$fieldEntity->name, 'trim'];
+            $rules[] = self::enumToRule($fieldEntity->name, $fieldEntity->enums, true);
+        }
         if($fieldEntity->type == FieldTypeEnum::SAFE_STRING) {
-            $rules[] = [$fieldEntity->name, 'filter','filter'=>'\yii\helpers\HtmlPurifier::process'];
+            $rules[] = [$fieldEntity->name, 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'];
             $rules[] = [$fieldEntity->name, 'trim'];
         }
         return $rules;
     }
 
-    private static function enumToRule($fieldName, $enums) : array {
+    private static function enumToRule($fieldName, $enums, $allowArray = false) : array {
         $enumOptions = ArrayHelper::map($enums, 'name', 'title');
         $enumNames = array_keys($enumOptions);
-        return [$fieldName, 'in', 'range' => $enumNames];
+        return [$fieldName, 'in', 'range' => $enumNames, 'allowArray' => $allowArray];
     }
 
 }
