@@ -56,17 +56,8 @@ class EntityService extends BaseActiveService implements EntityInterface {
     }
 
     public function oneDefault(int $entityId) : array {
-        $query = Query::forge();
-        $query->with(['fields']);
-        /** @var EntityEntity $entityEntity */
-        $entityEntity = \App::$domain->model->entity->oneById($entityId, $query);
-        $defaultValues = [];
-        foreach ($entityEntity->fields as $fieldEntity) {
-            if($fieldEntity->default) {
-                $defaultValues[$fieldEntity->name] = $fieldEntity->default;
-            }
-        }
-        return $defaultValues;
+        $model = $this->createModel($entityId, []);
+        return $model->toArray();
     }
 
 }

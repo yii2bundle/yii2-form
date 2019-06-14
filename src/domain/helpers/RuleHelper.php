@@ -20,10 +20,22 @@ class RuleHelper {
         return $data;
     }
 
+    private static function forgeDefaultValues(Model $model, array $fieldCollection) {
+        $attributes = [];
+        foreach ($fieldCollection as $fieldEntity) {
+            if($fieldEntity->default !== null) {
+                $model->{$fieldEntity->name} = $fieldEntity->default;
+                $attributes[] = $fieldEntity->name;
+            }
+        }
+        $model->validate($attributes);
+    }
+
     public static function createModel(array $rules, array $data, array $attributes = [], array $fieldCollection = []) : Model {
         $model = new DynamicModel;
         self::setAttributes($model, $attributes);
         $model->loadRules($rules);
+        self::forgeDefaultValues($model, $fieldCollection);
         $model->loadData($data);
         $map = ArrayHelper::map($fieldCollection, 'name', 'title');
         //d($map);

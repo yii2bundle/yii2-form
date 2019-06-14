@@ -16,5 +16,6 @@ use yii2rails\domain\interfaces\services\CrudInterface;
 interface EntityInterface extends CrudInterface {
 
     public function validate(int $entityId, array $data) : Model;
+    public function oneDefault(int $entityId) : array;
 
 }
