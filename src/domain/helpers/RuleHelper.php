@@ -24,25 +24,32 @@ class RuleHelper {
         $attributes = [];
         foreach ($fieldCollection as $fieldEntity) {
             if($fieldEntity->default !== null) {
-                $model->{$fieldEntity->name} = $fieldEntity->default;
-                $attributes[] = $fieldEntity->name;
+                $attributes[$fieldEntity->name] = $fieldEntity->default;
+            } else {
+                $attributes[$fieldEntity->name] = null;
             }
         }
-        $model->validate($attributes);
+        return $attributes;
     }
 
-    public static function createModel(array $rules, array $data, array $attributes = [], array $fieldCollection = []) : Model {
+    public static function createModelFromFields(array $data, array $fieldCollection = []) : Model {
+        $data = RuleHelper::filterAttributes($fieldCollection, $data);
+        $rules = RuleHelper::fieldCollectionToRules($fieldCollection);
+        $model = RuleHelper::createModel($rules, $data, $fieldCollection);
+        return $model;
+    }
+
+    public static function createModel(array $rules, array $data, array $fieldCollection = []) : Model {
         $model = new DynamicModel;
-        self::setAttributes($model, $attributes);
+        $defaultValues = self::forgeDefaultValues($model, $fieldCollection);
+        $model->loadData($defaultValues);
         $model->loadRules($rules);
-        self::forgeDefaultValues($model, $fieldCollection);
         $model->loadData($data);
         $map = ArrayHelper::map($fieldCollection, 'name', 'title');
-        //d($map);
         $defaultLabels = [
-            'currency_id' => \Yii::t('money/transaction', 'currency'),
-            'account' => \Yii::t('money/payment', 'account'),
-            'amount' => \Yii::t('money/payment', 'amount'),
+            'currency_id' => ['money/transaction', 'currency'],
+            'account' => ['money/payment', 'account'],
+            'amount' => ['money/payment', 'amount'],
         ];
         $map = ArrayHelper::merge($defaultLabels, $map);
         $model->loadAttributeLabels($map);
@@ -93,11 +100,12 @@ class RuleHelper {
         return null;
     }
 
-    private static function setAttributes(Model $model, array $attributes) {
+    /*private static function setAttributes(Model $model, array $fieldCollection) {
+        $attributes = ArrayHelper::getColumn($fieldCollection, 'name');
         foreach ($attributes as $attribute) {
             $model->{$attribute} = null;
         }
-    }
+    }*/
 
     private static function fieldEntityToRules(FieldEntity $fieldEntity) : array {
         $rules = [];

@@ -24,19 +24,13 @@ class EntityService extends BaseActiveService implements EntityInterface {
 
     public function createModelByName(string $entityName, array $data) : Model {
         $fieldCollection = $this->allFieldsByEntityName($entityName);
-        $data = RuleHelper::filterAttributes($fieldCollection, $data);
-        $rules = RuleHelper::fieldCollectionToRules($fieldCollection);
-        $attributes = ArrayHelper::getColumn($fieldCollection, 'name');
-        $model = RuleHelper::createModel($rules, $data, $attributes, $fieldCollection);
+        $model = RuleHelper::createModelFromFields($data, $fieldCollection);
         return $model;
     }
 
     public function createModel(int $entityId, array $data) : Model {
         $fieldCollection = $this->allFieldsByEntityId($entityId);
-        $data = RuleHelper::filterAttributes($fieldCollection, $data);
-        $rules = RuleHelper::fieldCollectionToRules($fieldCollection);
-        $attributes = ArrayHelper::getColumn($fieldCollection, 'name');
-        $model = RuleHelper::createModel($rules, $data, $attributes, $fieldCollection);
+        $model = RuleHelper::createModelFromFields($data, $fieldCollection);
         return $model;
     }
 
