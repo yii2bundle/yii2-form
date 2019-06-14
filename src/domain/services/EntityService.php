@@ -22,6 +22,15 @@ use yii2rails\extension\common\enums\StatusEnum;
  */
 class EntityService extends BaseActiveService implements EntityInterface {
 
+    public function createModelByName(string $entityName, array $data) : Model {
+        $fieldCollection = $this->allFieldsByEntityName($entityName);
+        $data = RuleHelper::filterAttributes($fieldCollection, $data);
+        $rules = RuleHelper::fieldCollectionToRules($fieldCollection);
+        $attributes = ArrayHelper::getColumn($fieldCollection, 'name');
+        $model = RuleHelper::createModel($rules, $data, $attributes, $fieldCollection);
+        return $model;
+    }
+
     public function createModel(int $entityId, array $data) : Model {
         $fieldCollection = $this->allFieldsByEntityId($entityId);
         $data = RuleHelper::filterAttributes($fieldCollection, $data);
@@ -31,19 +40,13 @@ class EntityService extends BaseActiveService implements EntityInterface {
         return $model;
     }
 
-    /**
-     * @param $modelId
-     * @param Query|null $query
-     * @return FieldEntity[]
-     */
-    private function allFieldsByEntityId($entityId, Query $query = null)
-    {
-        $query = Query::forge($query);
-        $query->with(['fields.rules', 'fields.enums']);
-        //$query->andWhere(['is_visible' => 1]);
-        /** @var SentityEntity $entityEntity */
-        $entityEntity = \App::$domain->model->entity->oneById($entityId, $query);
-        return $entityEntity->fields;
+    public function validateByName(string $entityName, array $data) : Model {
+        $model = $this->createModelByName($entityName, $data);
+        $isValid = $model->validate();
+        if(!$isValid) {
+            throw new UnprocessableEntityHttpException($model);
+        }
+        return $model;
     }
 
     public function validate(int $entityId, array $data) : Model {
@@ -58,6 +61,37 @@ class EntityService extends BaseActiveService implements EntityInterface {
     public function oneDefault(int $entityId) : array {
         $model = $this->createModel($entityId, []);
         return $model->toArray();
+    }
+
+    public function oneDefaultById(int $entityId) : array {
+        $model = $this->createModel($entityId, []);
+        return $model->toArray();
+    }
+
+    public function oneDefaultByName(string $entityName) : array {
+        $model = $this->createModel($entityId, []);
+        return $model->toArray();
+    }
+
+    private function allFieldsByEntityId($entityId, Query $query = null)
+    {
+        $query = Query::forge($query);
+        $query->with(['fields.rules', 'fields.enums']);
+        //$query->andWhere(['is_visible' => 1]);
+        /** @var SentityEntity $entityEntity */
+        $entityEntity = \App::$domain->model->entity->oneById($entityId, $query);
+        return $entityEntity->fields;
+    }
+
+    private function allFieldsByEntityName($entityName, Query $query = null)
+    {
+        $query = Query::forge($query);
+        $query->with(['fields.rules', 'fields.enums']);
+        //$query->andWhere(['is_visible' => 1]);
+        $query->andWhere(['name' => $entityName]);
+        /** @var SentityEntity $entityEntity */
+        $entityEntity = \App::$domain->model->entity->one($query);
+        return $entityEntity->fields;
     }
 
 }
