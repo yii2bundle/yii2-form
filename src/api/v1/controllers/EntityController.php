@@ -15,19 +15,25 @@ class EntityController extends Controller
     {
         return [
             Behavior::cors(),
-            //Behavior::auth(),
+            Behavior::auth(),
             Behavior::access(ModelPermissionEnum::MANAGE, ['create', 'update', 'delete']),
         ];
     }
 
-    public function actionValidate($id) {
-	    $data = \Yii::$app->request->post();
-	    $model = \App::$domain->model->entity->validate($id, $data);
-        return $model->toArray();
+    public function actions()
+    {
+        $actions = parent::actions();
+        return [
+            'index' => $actions['index'],
+            'view' => $actions['view'],
+            'options' => $actions['options'],
+        ];
     }
 
-    public function actionDefault($id) {
-        return \App::$domain->model->entity->oneDefault($id);
+    public function actionUpdate($id) {
+        $data = \Yii::$app->request->post();
+        $model = \App::$domain->model->entity->validate($id, $data);
+        return $model->toArray();
     }
 
 }
