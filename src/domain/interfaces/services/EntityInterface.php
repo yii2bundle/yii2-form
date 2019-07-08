@@ -3,6 +3,7 @@
 namespace yii2bundle\model\domain\interfaces\services;
 
 use yii\base\Model;
+use yii2bundle\model\domain\entities\EntityEntity;
 use yii2rails\domain\interfaces\services\CrudInterface;
 
 /**
@@ -16,6 +17,7 @@ use yii2rails\domain\interfaces\services\CrudInterface;
 interface EntityInterface extends CrudInterface {
 
     public function createModelByName(string $entityName, array $data) : Model;
+    public function oneByName(string $entityName) : EntityEntity;
     public function validateByName(string $entityName, array $data) : Model;
     public function validate(int $entityId, array $data) : Model;
     public function oneDefault(int $entityId) : array;

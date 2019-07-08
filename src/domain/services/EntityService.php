@@ -4,6 +4,7 @@ namespace yii2bundle\model\domain\services;
 
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 use yii2bundle\model\domain\entities\EntityEntity;
 use yii2bundle\model\domain\helpers\RuleHelper;
 use yii2bundle\model\domain\interfaces\services\EntityInterface;
@@ -34,8 +35,26 @@ class EntityService extends BaseActiveService implements EntityInterface {
         return $model;
     }
 
+    public function oneByName(string $entityName) : EntityEntity {
+        $entityNameArr = explode(DOT, $entityName);
+        if(count($entityNameArr) > 1) {
+            $bookEntity = \App::$domain->model->book->oneByName($entityNameArr[0]);
+            $q = new Query;
+            $q->andWhere([
+                'book_id' => $bookEntity->id,
+                'name' => $entityNameArr[1],
+            ]);
+            $entityEntity = \App::$domain->model->entity->one($q);
+            return $entityEntity;
+            //d($entityEntity);
+        } else {
+            throw new NotFoundHttpException('Entity not found!');
+        }
+    }
+
     public function validateByName(string $entityName, array $data) : Model {
-        $model = $this->createModelByName($entityName, $data);
+        $entityEntity = $this->oneByName($entityName);
+        $model = $this->createModel($entityEntity->id, $data);
         $isValid = $model->validate();
         if(!$isValid) {
             throw new UnprocessableEntityHttpException($model);

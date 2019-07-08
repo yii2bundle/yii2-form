@@ -2,7 +2,9 @@
 
 namespace yii2bundle\model\domain\services;
 
+use yii2bundle\model\domain\entities\BookEntity;
 use yii2bundle\model\domain\interfaces\services\BookInterface;
+use yii2rails\domain\data\Query;
 use yii2rails\domain\services\base\BaseActiveService;
 
 /**
@@ -14,5 +16,14 @@ use yii2rails\domain\services\base\BaseActiveService;
  * @property-read \yii2bundle\model\domain\interfaces\repositories\BookInterface $repository
  */
 class BookService extends BaseActiveService implements BookInterface {
+
+    public function oneByName($bookName, Query $query = null) : BookEntity
+    {
+        $query = Query::forge($query);
+        $query->andWhere(['name' => $bookName]);
+        /** @var SentityEntity $entityEntity */
+        $entityEntity = \App::$domain->model->book->one($query);
+        return $entityEntity;
+    }
 
 }
