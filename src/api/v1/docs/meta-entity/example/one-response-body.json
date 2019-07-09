@@ -1,0 +1,92 @@
+{
+  "id": 1,
+  "book_id": 1,
+  "name": "person",
+  "title": "Персона",
+  "handler": null,
+  "status": 1,
+  "fields": [
+    {
+      "id": 2,
+      "entity_id": 1,
+      "name": "iin",
+      "type": "string",
+      "is_required": 1,
+      "default": null,
+      "title": "ИИН",
+      "description": null,
+      "sort": 10,
+      "status": 1,
+      "rules": [
+        {
+          "id": 4,
+          "field_id": 2,
+          "name": "yii2rails\\extension\\validator\\IinValidator",
+          "params": null,
+          "sort": 20,
+          "status": 1
+        }
+      ],
+      "enums": []
+    },
+    {
+      "id": 1,
+      "entity_id": 1,
+      "name": "birthday",
+      "type": "string",
+      "is_required": 1,
+      "default": null,
+      "title": "Дата рождения",
+      "description": null,
+      "sort": 20,
+      "status": 1,
+      "rules": [
+        {
+          "id": 1,
+          "field_id": 1,
+          "name": "birthday",
+          "params": null,
+          "sort": 20,
+          "status": 1
+        }
+      ],
+      "enums": []
+    },
+    {
+      "id": 3,
+      "entity_id": 1,
+      "name": "sex",
+      "type": "enum",
+      "is_required": 1,
+      "default": null,
+      "title": "Пол",
+      "description": null,
+      "sort": 30,
+      "status": 1,
+      "rules": [],
+      "enums": [
+        {
+          "id": 1,
+          "field_id": 3,
+          "name": "male",
+          "title": "Мжчина",
+          "sort": 10,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "field_id": 3,
+          "name": "female",
+          "title": "Женщина",
+          "sort": 20,
+          "status": 1
+        }
+      ]
+    }
+  ],
+  "book": {
+    "id": 1,
+    "name": "user",
+    "title": "Пользователь"
+  }
+}

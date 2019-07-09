@@ -1,0 +1,210 @@
+[
+  {
+    "id": 1,
+    "book_id": 1,
+    "name": "person",
+    "title": "Персона",
+    "handler": null,
+    "status": 1,
+    "fields": [
+      {
+        "id": 2,
+        "entity_id": 1,
+        "name": "iin",
+        "type": "string",
+        "is_required": 1,
+        "default": null,
+        "title": "ИИН",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [
+          {
+            "id": 4,
+            "field_id": 2,
+            "name": "yii2rails\\extension\\validator\\IinValidator",
+            "params": null,
+            "sort": 20,
+            "status": 1
+          }
+        ],
+        "enums": []
+      },
+      {
+        "id": 1,
+        "entity_id": 1,
+        "name": "birthday",
+        "type": "string",
+        "is_required": 1,
+        "default": null,
+        "title": "Дата рождения",
+        "description": null,
+        "sort": 20,
+        "status": 1,
+        "rules": [
+          {
+            "id": 1,
+            "field_id": 1,
+            "name": "birthday",
+            "params": null,
+            "sort": 20,
+            "status": 1
+          }
+        ],
+        "enums": []
+      },
+      {
+        "id": 3,
+        "entity_id": 1,
+        "name": "sex",
+        "type": "enum",
+        "is_required": 1,
+        "default": null,
+        "title": "Пол",
+        "description": null,
+        "sort": 30,
+        "status": 1,
+        "rules": [],
+        "enums": [
+          {
+            "id": 1,
+            "field_id": 3,
+            "name": "male",
+            "title": "Мжчина",
+            "sort": 10,
+            "status": 1
+          },
+          {
+            "id": 2,
+            "field_id": 3,
+            "name": "female",
+            "title": "Женщина",
+            "sort": 20,
+            "status": 1
+          }
+        ]
+      }
+    ],
+    "book": {
+      "id": 1,
+      "name": "user",
+      "title": "Пользователь"
+    }
+  },
+  {
+    "id": 2,
+    "book_id": 4,
+    "name": "personal",
+    "title": "Настройки клиента (Web, IOS, Android)",
+    "handler": null,
+    "status": 1,
+    "fields": [
+      {
+        "id": 8,
+        "entity_id": 2,
+        "name": "language",
+        "type": "enum",
+        "is_required": 0,
+        "default": "ru",
+        "title": "Язык",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [],
+        "enums": [
+          {
+            "id": 3,
+            "field_id": 8,
+            "name": "ru",
+            "title": "Русский",
+            "sort": 10,
+            "status": 1
+          },
+          {
+            "id": 4,
+            "field_id": 8,
+            "name": "kz",
+            "title": "Казахский",
+            "sort": 10,
+            "status": 1
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "entity_id": 2,
+        "name": "is_enable_sign",
+        "type": "boolean",
+        "is_required": 1,
+        "default": 0,
+        "title": "Включить подпись к письму",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [],
+        "enums": []
+      },
+      {
+        "id": 7,
+        "entity_id": 2,
+        "name": "sign_text",
+        "type": "safe_string",
+        "is_required": 0,
+        "default": "",
+        "title": "Текст подписи",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [
+          {
+            "id": 6,
+            "field_id": 7,
+            "name": "string",
+            "params": {
+              "length": [
+                0,
+                1024
+              ]
+            },
+            "sort": 10,
+            "status": 1
+          }
+        ],
+        "enums": []
+      },
+      {
+        "id": 4,
+        "entity_id": 2,
+        "name": "is_enable_message_notify",
+        "type": "boolean",
+        "is_required": 1,
+        "default": 1,
+        "title": "Включить уведомления о сообщениях",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [],
+        "enums": []
+      },
+      {
+        "id": 5,
+        "entity_id": 2,
+        "name": "is_enable_mail_notify",
+        "type": "boolean",
+        "is_required": 1,
+        "default": 1,
+        "title": "Включить уведомления о письмах",
+        "description": null,
+        "sort": 10,
+        "status": 1,
+        "rules": [],
+        "enums": []
+      }
+    ],
+    "book": {
+      "id": 4,
+      "name": "settings",
+      "title": "Настройки"
+    }
+  }
+]
