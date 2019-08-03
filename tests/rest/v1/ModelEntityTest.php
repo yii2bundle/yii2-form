@@ -6,7 +6,7 @@ use api\tests\functional\v1\appeal\AppealSchema;
 use yii2lab\rest\domain\entities\RequestEntity;
 use yii2lab\test\helpers\CurrentIdTestHelper;
 use yii2lab\test\Test\BaseActiveApiTest;
-use yii2module\account\domain\v3\helpers\test\AuthTestHelper;
+use yii2bundle\account\domain\v3\helpers\test\AuthTestHelper;
 use yii2rails\extension\web\enums\HttpMethodEnum;
 
 class ModelEntityTest extends BaseActiveApiTest
