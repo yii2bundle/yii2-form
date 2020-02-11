@@ -1,7 +1,7 @@
 description: "Мета-сущности"
 get:
     description: "Получть список сущностей"
-    is: !include /../../../vendor/yii2bundle/yii2-rest/src/domain/docs/is/all.raml
+    is: !include /../../../vendor/zndoc/rest-api/src/is/all.raml
     responses:
         200:
             body:
@@ -14,16 +14,16 @@ get:
             type: integer
     get:
         description: "Получить сущность"
-        is: !include /../../../vendor/yii2bundle/yii2-rest/src/domain/docs/is/one.raml
+        is: !include /../../../vendor/zndoc/rest-api/src/is/one.raml
         responses:
             200:
                 body:
                     application/json:
                         example: !include example/one-response-body.json
     put:
-        securedBy: [Auth]
+        securedBy: [bearerAuth]
         description: "Валидация данных сущности"
-        is: !include /../../../vendor/yii2bundle/yii2-rest/src/domain/docs/is/update.raml
+        is: !include /../../../vendor/zndoc/rest-api/src/is/update.raml
         body:
             application/json:
                 example: !include example/update-request-body.json
